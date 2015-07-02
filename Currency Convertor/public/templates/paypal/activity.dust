@@ -1,0 +1,35 @@
+{>"layouts/master" /}
+
+{<headscripts}
+	<script src="/components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+	<script src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
+{/headscripts}
+
+{<headlinks}
+	<link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/components/bootstrap/dist//css/bootstrap-theme.min.css">
+{/headlinks}
+
+{<body}
+	<div id="wrapper" class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading">Transactions</div>
+			<table id="transactions" class="table table-responsive table-striped">
+				<thead>
+					<td>Transaction date</td>
+					<td>Type and Location</td>
+					<td>Amount</td>
+				</thead>
+				<tbody>
+					{#transactions}
+						<tr>
+							<td>{date}</td>
+							<td>{type}: {place}</td>
+							<td>{symbols[currency]} {amount}</td>
+						</tr>
+					{/transactions}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{/body}

@@ -1,0 +1,31 @@
+{>"layouts/master" /}
+
+{<body}
+	<!-- {from} {to} {rate} -->
+	{?rate}
+		<h3>Conversion rate from {from} to {to}</h3>
+		{rate}
+		<div>
+			<button onClick="javascript:window.top.location.href='/paypal/currencyRate?gui=true'">Find another rate</button>
+		</div>
+	{:else}
+		<h2>Please select two currencies to get the rate for</h2>
+		<form action="currencyRate" method="GET">
+			<label for="from">From: </label>
+			<select id="from" name="from">
+				{#currencies}
+					<option value="{.}">{.}</option>
+				{/currencies}
+			</select>
+			<label for="to">From: </label>
+			<select id="to" name="to">
+				{#currencies}
+					<option value="{.}">{.}</option>
+				{/currencies}
+			</select>
+			<div>
+				<button type="submit">Submit</button>
+			</div>
+		</form>
+	{/rate}
+{/body}

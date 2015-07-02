@@ -1,0 +1,28 @@
+{>"layouts/master" /}
+
+{<body}
+	{?converted}
+		<h3>{symbols[from]}{amount} is {symbols[to]}{converted}</h3>
+	{:else}
+		<form action="currencyConversion" method="GET">
+			<input type="text" name="amount" placeholder="Amount">
+			<label for="from">From: </label>
+			<select id="from" name="from">
+				{#currencies}
+					<option value="{code}">{code} {symbol}</option>
+				{/currencies}
+			</select>{~n}
+			<label for="to">To: </label>
+			<select id="to" name="to">
+				{#currencies}
+					<option value="{code}">{code} {symbol}</option>
+				{/currencies}
+			</select>
+			<input type="hidden" value="true" name="gui"/>
+			<div>
+				<button type="submit">Submit</button>
+			</div>
+		</form>
+	{/converted}
+	<!-- {amount} {from} {to} {converted} -->
+{/body}

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>{+title /}</title>
+    {+headscripts /}
+    {+headlinks /}
+</head>
+<body>
+<div id="wrapper" class="content">
+    {+body /}
+</div>
+<script src="/js/app.js"></script>
+</body>
+</html>

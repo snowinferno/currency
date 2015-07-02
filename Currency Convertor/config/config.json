@@ -1,0 +1,102 @@
+{
+
+    "express": {
+        "view cache": false,
+        "view engine": "js",
+        "views": "path:./.build/templates"
+    },
+
+    "view engines": {
+        "js": {
+            "module": "engine-munger",
+            "renderer": {
+                "method": "js",
+                "arguments": [
+                    { "cache": true },
+                    {
+                        "views": "config:express.views",
+                        "view engine": "config:express.view engine",
+                        "specialization": "config:specialization",
+                        "i18n": "config:i18n"
+                    }
+                ]
+            }
+        }
+    },
+    
+
+    "i18n": {
+        "contentPath": "path:./locales",
+        "fallback": "en-US"
+    },
+    
+    
+
+    "middleware": {
+
+        "static": {
+            "module": {
+                "arguments": [ "path:./.build" ]
+            }
+        }
+
+        ,"router": {
+            "module": {
+                "arguments": [{ "directory": "path:./controllers" }]
+            }
+        }
+
+        
+        ,"expressView": {
+            "priority": 100,
+            "enabled": true,
+            "module": {
+                "name": "engine-munger/lib/expressView"
+            }
+        }
+        
+
+        
+
+        ,"fileNotFound": {
+            "enabled": true,
+            "priority": 130,
+            "module": {
+                "name": "kraken-js/middleware/404",
+                "arguments": [ "errors/404" ]
+            }
+        }
+
+        ,"serverError": {
+            "enabled": true,
+            "priority": 140,
+            "module": {
+                "name": "kraken-js/middleware/500",
+                "arguments": [ "errors/500" ]
+            }
+        }
+
+        
+    },
+
+    "currencySource": "OpenExchange",
+    "openExchangeAppId": "de0133e5996a48c29ff0fb6203a72fb0",
+    "currencies": ["USD", "EUR", "CAD", "CNY", "INR"],
+    "currencySymbols": {
+        "USD": "$",
+        "EUR": "€",
+        "CAD": "$",
+        "CNY": "元",
+        "INR": "₹"
+    },
+    "transactions": [
+        {"date": "1/10/2014", "type": "purchase", "place": "Macy's", "amount":"99.99", "currency": "USD"},
+        {"date": "1/02/2014", "type": "purchase", "place": "Home Depot", "amount":"150.15", "currency": "USD"},
+        {"date": "12/31/2013", "type": "transfer", "place": "Wells Fargo", "amount":"350.00", "currency": "USD"},
+        {"date": "12/15/2013", "type": "purchase", "place": "Jamba Juice", "amount":"2.30", "currency": "USD"},
+        {"date": "11/01/2013", "type": "refund", "place": "DSW Shoes", "amount":"75.45", "currency": "USD"},
+        {"date": "10/20/2013", "type": "purchase", "place": "DSW Shoes", "amount":"75.45", "currency": "USD"},
+        {"date": "10/05/2013", "type": "purchase", "place": "Jamba Juice", "amount":"3.00", "currency": "USD"},
+        {"date": "10/02/2013", "type": "transfer", "place": "Wells Fargo", "amount":"2.75", "currency": "USD"}
+    ]
+}
