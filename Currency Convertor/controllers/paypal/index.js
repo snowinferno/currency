@@ -27,23 +27,25 @@ var CurrencyModule = function CurrencyModule(router) {
 			gui = request.query.gui;
 		}
 
-		var converted = convertor.convert(amount, from, to);
+		var data;
 
-		var data = {
-			amount: amount,
-			from: from,
-			to: to,
-			converted: converted.toFixed(2),
-			symbols: request.app.kraken.get("currencySymbols")
-		};
+		if (!amount || !from || !to){
+			data = {
+				error: "Missing required information. " +
+						"You must include amount to convert, currency to convert from and currency to convert to."
+			};
+			response.status(400);
+		} else {
+			var converted = convertor.convert(amount, from, to);
+			var data = {
+				amount: amount,
+				from: from,
+				to: to,
+				converted: converted.toFixed(2),
+				symbols: request.app.kraken.get("currencySymbols")
+			};
+		}
 		if (!gui){
-			if (!amount || !from || !to){
-				data = {
-					error: "Missing required information. " +
-							"You must include amount to convert, currency to convert from and currency to convert to."
-				};
-				response.status(400);
-			}
 			response.json(data);
 		} else {
 			var currencies = request.app.kraken.get('currencies');
@@ -60,7 +62,6 @@ var CurrencyModule = function CurrencyModule(router) {
 	});
 
 	router.get('/currencyRate', function(request, response){
-		console.dir(request.query);
 		var from, to, gui;
 		if (request.query){
 			from = request.query.from;
@@ -68,20 +69,24 @@ var CurrencyModule = function CurrencyModule(router) {
 			gui = request.query.gui
 		}
 
-		var data = {
-			from: from,
-			to: to,
-			rate: convertor.conversionRate(from, to),
-			symbols: request.app.kraken.get("currencySymbols")
-		};
+		var data;
+
+		if (!from || !to){
+			data = {
+				error: "Missing required information. " +
+						"You must include the currency you are converting from and the currency you are converting to."
+			};
+			response.status(400);
+		} else {
+			data = {
+				from: from,
+				to: to,
+				rate: convertor.conversionRate(from, to),
+				symbols: request.app.kraken.get("currencySymbols")
+			};
+		}
+
 		if (!gui){
-			if (!from || !to){
-				data = {
-					error: "Missing required information. " +
-							"You must include the currency you are converting from and the currency you are converting to."
-				};
-				response.status(400);
-			}
 			response.json(data);
 		} else {
 			var currencies = request.app.kraken.get('currencies');
