@@ -1,7 +1,7 @@
+'use strict';
 var Convertor = require('currency_conversion');
 
 var CurrencyModule = function CurrencyModule(router) {
-	'use strict';
 	var convertor = new Convertor({});
 
 	router.get('/updateRates', function(request, response){
@@ -11,9 +11,9 @@ var CurrencyModule = function CurrencyModule(router) {
 
 	router.get('/activity', function(request, response){
 		var data = {
-			symbols: request.app.kraken.get("currencySymbols")
+			symbols: request.app.kraken.get('currencySymbols')
 		};
-		var transactions = request.app.kraken.get("transactions");
+		var transactions = request.app.kraken.get('transactions');
 		data.transactions = transactions;
 		response.render('paypal/activity', data);
 	});
@@ -31,18 +31,18 @@ var CurrencyModule = function CurrencyModule(router) {
 
 		if (!amount || !from || !to){
 			data = {
-				error: "Missing required information. " +
-						"You must include amount to convert, currency to convert from and currency to convert to."
+				error: 'Missing required information. ' +
+						'You must include amount to convert, currency to convert from and currency to convert to.'
 			};
 			response.status(400);
 		} else {
 			var converted = convertor.convert(amount, from, to);
-			var data = {
+			data = {
 				amount: amount,
 				from: from,
 				to: to,
 				converted: converted.toFixed(2),
-				symbols: request.app.kraken.get("currencySymbols")
+				symbols: request.app.kraken.get('currencySymbols')
 			};
 		}
 		if (!gui){
@@ -66,15 +66,15 @@ var CurrencyModule = function CurrencyModule(router) {
 		if (request.query){
 			from = request.query.from;
 			to = request.query.to;
-			gui = request.query.gui
+			gui = request.query.gui;
 		}
 
 		var data;
 
 		if (!from || !to){
 			data = {
-				error: "Missing required information. " +
-						"You must include the currency you are converting from and the currency you are converting to."
+				error: 'Missing required information. ' +
+						'You must include the currency you are converting from and the currency you are converting to.'
 			};
 			response.status(400);
 		} else {
@@ -82,7 +82,7 @@ var CurrencyModule = function CurrencyModule(router) {
 				from: from,
 				to: to,
 				rate: convertor.conversionRate(from, to),
-				symbols: request.app.kraken.get("currencySymbols")
+				symbols: request.app.kraken.get('currencySymbols')
 			};
 		}
 

@@ -5,7 +5,8 @@
   "author": "Greg Wilburn",
   "main": "index.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "unit": "mocha --check-leaks -gc --throw-deprecation --reporter spec test/*.test.js"
   },
   "dependencies": {
     "adaro": "^0.1.10",

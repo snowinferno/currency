@@ -4,7 +4,7 @@
   "description": "A currency conversion module.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests"
+    "test": "mocha --check-leaks -gc --throw-deprecation --reporter spec tests"
   },
   "author": "Greg Wilburn",
   "license": "MIT",

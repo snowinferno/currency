@@ -7,14 +7,13 @@ chai.use(chaiHttp);
 var should = chai.should();
 
 describe('Routes', function(){
+	var app;
     before(function (done) {
         app = express();
         app.on('start', done);
         app.use(kraken({
             basedir: process.cwd()
         }));
-
-        mock = app.listen(1337);
     });
 
     describe('/paypal/currencyConversion', function(){
