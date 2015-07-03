@@ -5,12 +5,16 @@ var CurrencyModule = function CurrencyModule(router) {
 	var convertor = new Convertor({});
 
 	router.get('/updateRates', function(request, response){
-		convertor.updateFile(function(){convertor.updateConversionTable();});
-		response.redirect('/paypal/currencyRate');
+		convertor.updateFile(function(){
+			convertor.updateConversionTable();
+			response.json({fileDate: new Date(convertor.conversionTable.timestamp * 1000).toString()})
+
+		});
 	});
 
 	router.get('/activity', function(request, response){
 		var data = {
+			fileDate: new Date(convertor.conversionTable.timestamp * 1000).toString(),
 			symbols: request.app.kraken.get('currencySymbols')
 		};
 		var transactions = request.app.kraken.get('transactions');

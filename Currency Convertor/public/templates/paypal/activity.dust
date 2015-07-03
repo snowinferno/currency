@@ -13,7 +13,10 @@
 {<body}
 	<div id="wrapper" class="container">
 		<div class="panel panel-default">
-			<div class="panel-heading">Transactions</div>
+			<div class="panel-heading">
+				Transactions
+				<span class="pull-right">Exchange rates as of: <span id="fileDate">{fileDate}</span> <button id="updateRates" class="btn btn-sm btn-default">Update?</button></span>
+			</div>
 			<table id="transactions" class="table table-responsive table-striped">
 				<thead>
 					<td>Transaction date</td>
@@ -32,4 +35,13 @@
 			</table>
 		</div>
 	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#updateRates').click(function(){
+				$.get('/paypal/updateRates').done(function(data){
+					$('#fileDate').text(data.fileDate);
+				})
+			});
+		})
+	</script>
 {/body}
