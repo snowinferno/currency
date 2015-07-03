@@ -1,17 +1,29 @@
 # currency
 A currency challenge using Kraken, Bower, Dust, Mocha, and Chai.
 
+Installation of currency_module
+===
+    $cd Currency\ Convertor
+    $npm install ../currency_module
+
+Using currency_module
+---
+    var CurrencyConvertor = require('currency_conversion');
+    var convertor = new CurrencyConvertor({});
+
+the empty object is currently required, the idea being it is a placeholder for configuration options
+
 Testing
 ===
 currency_module
 ---
-    cd currency_module
-    npm run test
+    $cd currency_module
+    $npm run test
 
 Currency Convertor
 ---
-    cd Currency\ Convertor
-    npm run unit
+    $cd Currency\ Convertor
+    $npm run unit
 
 API
 ===
