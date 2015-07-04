@@ -21,14 +21,20 @@
 				<thead>
 					<td>Transaction date</td>
 					<td>Type and Location</td>
+					<td/>
 					<td>Amount</td>
 				</thead>
 				<tbody>
 					{#transactions}
 						<tr>
 							<td>{date}</td>
-							<td>{type}: {place}</td>
-							<td>{symbols[currency]} {amount}</td>
+							<td>{type}: {place}<input type="hidden" value="{currency}" name="currency"></td>
+							<td><select class='convert'>
+								{#currencies currency=currency}
+									<option value="{code}"{@eq key=code value=currency} selected="true"{/eq}>{code} {symbol}</option>
+								{/currencies}
+							</select></td>
+							<td><span class="symbol">{symbols[currency]}</span> <span class="amount">{amount}</span></td>
 						</tr>
 					{/transactions}
 				</tbody>
@@ -36,12 +42,29 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+		var convertCurrency = function convertCurrency(event){
+			var reference = this;
+			var amount = $(this).parents('tr').find('.amount').text();
+			var newCurrency = $(this).parents('tr').find('.convert :selected').val();
+			var oldCurrency = $(this).parents('tr').find('input[name="currency"]').val();
+			$.get('/paypal/currencyConversion?from=' + oldCurrency + '&to=' + newCurrency + '&amount=' + amount)
+			.done(function(data){
+				$(reference).parents('tr').find('.amount').text(data.converted);
+				$(reference).parents('tr').find('.convert [value=' + data.to + ']').attr('selected', true);
+				$(reference).parents('tr').find('input[name="currency"]').attr('value', data.to);
+				$(reference).parents('tr').find('.symbol').text(data.symbols[data.to]);
+			})
+			.fail(function(){})
+			.always(function(){});
+		};
+
 		$(document).ready(function(){
 			$('#updateRates').click(function(){
 				$.get('/paypal/updateRates').done(function(data){
 					$('#fileDate').text(data.fileDate);
 				})
 			});
+			$('.convert').change(convertCurrency);
 		})
 	</script>
 {/body}

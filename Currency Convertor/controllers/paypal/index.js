@@ -7,8 +7,7 @@ var CurrencyModule = function CurrencyModule(router) {
 	router.get('/updateRates', function(request, response){
 		convertor.updateFile(function(){
 			convertor.updateConversionTable();
-			response.json({fileDate: new Date(convertor.conversionTable.timestamp * 1000).toString()})
-
+			response.json({fileDate: new Date(convertor.conversionTable.timestamp * 1000).toString()});
 		});
 	});
 
@@ -17,6 +16,15 @@ var CurrencyModule = function CurrencyModule(router) {
 			fileDate: new Date(convertor.conversionTable.timestamp * 1000).toString(),
 			symbols: request.app.kraken.get('currencySymbols')
 		};
+		var currencies = request.app.kraken.get('currencies');
+		var symbols = request.app.kraken.get('currencySymbols');
+		data.currencies = [];
+		for (var i = 0; i < convertor.currencies.length; i++) {
+			if (currencies.indexOf(convertor.currencies[i]) >= 0) {
+				var code = convertor.currencies[i];
+				data.currencies.push({code: code, symbol: symbols[code]});
+			}
+		}
 		var transactions = request.app.kraken.get('transactions');
 		data.transactions = transactions;
 		response.render('paypal/activity', data);
@@ -56,7 +64,7 @@ var CurrencyModule = function CurrencyModule(router) {
 			var symbols = request.app.kraken.get('currencySymbols');
 			data.currencies = [];
 			for (var i = 0; i < convertor.currencies.length; i++) {
-				if (currencies.indexOf(convertor.currencies[i]) > 0) {
+				if (currencies.indexOf(convertor.currencies[i]) >= 0) {
 					var code = convertor.currencies[i];
 					data.currencies.push({code: code, symbol: symbols[code]});
 				}
